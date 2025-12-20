@@ -147,7 +147,115 @@
             color: #e17055;
             margin-top: 12px;
             display: block;
+        }
+        /*остальной контент*/
         h2 {
+            color: #2d3436;
+            margin-top: 40px;
+            font-family: 'Pudelinka', cursive;
+            font-size: 1.8em;
+        }
+
+        p, a {
+            font-size: 1.1em;
+            color: #444;
+        }
+
+        a {
+            color: #0984e3;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Иконка Flaticon */
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        footer a {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<blockquote class="q">Путешествие в тысячу миль начинается с одного шага (Лао Цзы)</blockquote>
+
+<!-- Тег посещения -->
+<div class="visit-tag">посещение-2 — 20.12.2025</div>
+
+<!-- Новогодняя секция -->
+<div class="new-year-section">
+    <h2>С Новым годом 2026!</h2>
+    <p>
+        Под ёлкой светят огоньки,<br>
+        В окне мороз рисует сны.<br>
+        Звезда ведёт путей вершины —<br>
+        Новый год приходит к нам!
+    </p>
+
+    <div class="video-container">
+        <img src="https://i.imgur.com/9WYx7Zb.jpg" alt="Нажмите, чтобы посмотреть видео" id="video-trigger">
+        <span class="video-caption">👉 Нажмите на картинку, чтобы открыть праздничное видео</span>
+    </div>
+</div>
+
+<!-- Остальные записи -->
+<h2>1 декабря, 2025</h2>
+<img src="Icons/newyear2026.png" alt="Новый год" style="max-width:100px; margin:10px 0;">
+<p>Поздравление с Наступающим 2026 годом читайте <a href="Congratulations2026.html">здесь</a>.</p>
+
+<h2>15 октября, 2025</h2>
+<p>
+    Я сделала Новогодние кроссворды для сайта <a href="http://адрес-сайта-друга" title="Блог моего друга">Сайт моего друга</a>.
+</p>
+
+<h2>1 сентября, 2025</h2>
+<blockquote>Путешествие в тысячу миль начинается с одного шага (Лао Цзы)</blockquote>
+<p>
+    Оставляю в прошлом скучную неинтересную локальную файловую систему ради Всемирной паутины.
+</p>
+
+<!-- Снежинки -->
+<div class="snowflakes" id="snowflakes"></div>
+
+<footer>
+    <a href="https://www.flaticon.com/ru/free-icons/2026" title="2026 иконки">2026 иконки от Freepik — Flaticon</a>
+</footer>
+
+<!-- Скрипт снежинок -->
+<script>
+    // Генерация снежинок
+    const snowflakesContainer = document.getElementById('snowflakes');
+    const snowflakeCount = 30;
+    const snowflakes = ['❄', '❅', '❆'];
+
+    for (let i = 0; i < snowflakeCount; i++) {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        snowflake.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+        snowflake.style.left = Math.random() * 100 + 'vw';
+        snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+        snowflake.style.fontSize = (Math.random() * 16 + 12) + 'px';
+        snowflake.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        snowflake.style.animationDelay = Math.random() * 5 + 's';
+        snowflakesContainer.appendChild(snowflake);
+    }
+
+    // Клик по изображению → открывает видео
+    document.getElementById('video-trigger').addEventListener('click', function() {
+        window.open('https://example.com/video.mp4', '_blank');
+    });
+</script>
+
+</body>
+</html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мой блок</title>
