@@ -20,7 +20,15 @@
       text-align: center;
       margin-bottom: 20px;
     }
-    p {
+@font-face {
+font-family: "Pudelinka";
+src: url("fonts/pudelinka.ttf" ) format("truetype");
+font-weight: normal;
+font-style: normal;
+}
+    p.zz {
       font-size: 18px;
-      text-align: center;}
+      text-align: center;
+        font-family: "Pudelinka";
+    }
   
