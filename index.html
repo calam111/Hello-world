@@ -167,3 +167,184 @@
     n = 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345......
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ответ чат-бота | FAQ</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+        .header {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+        .date {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        .question {
+            background: #e7f1ff;
+            border-left: 4px solid #007bff;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .answer {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 12px 0;
+        }
+        .meta {
+            font-size: 0.85em;
+            color: #6c757d;
+            background: #fff3cd;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 8px 0;
+        }
+        .evaluation {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 2px dashed #dee2e6;
+        }
+        .evaluation h3 {
+            color: #28a745;
+        }
+        .criteria {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .criterion {
+            background: #f1f8ff;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .criterion.good { border-top: 3px solid #28a745; }
+        .criterion.warning { border-top: 3px solid #ffc107; }
+        .status {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .status.good { color: #28a745; }
+        .status.warning { color: #856404; }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin: 4px 0;
+        }
+        .recommendations {
+            background: #fff3cd;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Ответ модели</h1>
+            <p class="date">📅 21.02.2026</p>
+        </div>
+
+        <!-- Основной вопрос пользователя -->
+        <div class="question">
+            <strong>❓ Вопрос пользователя:</strong><br>
+            Сколько ждать мой заказ?
+        </div>
+
+        <div class="meta">
+            🔍 Найден FAQ-вопрос: <em>«Как быстро доставляется заказ?»</em> (sim=0.706)
+        </div>
+
+        <div class="answer">
+            <strong>✅ Ответ бота:</strong><br>
+            Спасибо за вопрос! Ориентировочный срок доставки вашего заказа — <strong>3–5 рабочих дней</strong> с момента подтверждения. 
+            Точную дату доставки вы можете отслеживать в личном кабинете или в SMS/email-уведомлениях. 
+            Если срок превысил указанный — обратитесь в поддержку, и мы оперативно проверим статус посылки. 📦
+        </div>
+
+        <!-- Новый добавленный вопрос -->
+        <hr style="margin: 24px 0; border: none; border-top: 1px solid #dee2e6;">
+        
+        <h3>➕ Добавленный вопрос в базу знаний:</h3>
+        
+        <div class="question">
+            <strong>❓ Как оплатить заказ?</strong>
+        </div>
+
+        <div class="answer">
+            <strong>✅ Ответ:</strong><br>
+            Мы принимаем удобные способы оплаты:
+            <ul>
+                <li>💳 <strong>Банковские карты:</strong> Visa, Mastercard, МИР</li>
+                <li>📱 <strong>Электронные кошельки:</strong> ЮMoney, Qiwi, Apple Pay, Google Pay</li>
+                <li>🚚 <strong>Оплата при получении:</strong> наложенный платеж (доступно в выбранных регионах)</li>
+                <li>🏢 <strong>Безналичный расчёт:</strong> для юридических лиц</li>
+            </ul>
+            Выберите подходящий способ на этапе оформления заказа в корзине. 
+            <small>Все платежи защищены по стандарту PCI DSS. 🔒</small>
+        </div>
+
+        <!-- Оценка работы бота -->
+        <div class="evaluation">
+            <h3>📊 Оценка работы чат-бота</h3>
+            
+            <div class="criteria">
+                <div class="criterion good">
+                    <div class="status good">✅ Распознавание</div>
+                    <small>Вопрос корректно сопоставлен с FAQ (sim=0.706)</small>
+                </div>
+                <div class="criterion good">
+                    <div class="status good">✅ Релевантность</div>
+                    <small>Ответ точно соответствует запросу о сроках</small>
+                </div>
+                <div class="criterion warning">
+                    <div class="status warning">⚠️ Полнота</div>
+                    <small>Можно добавить ссылку на трекинг</small>
+                </div>
+                <div class="criterion good">
+                    <div class="status good">✅ Тон общения</div>
+                    <small>Вежливый, клиентоориентированный</small>
+                </div>
+            </div>
+
+            <div class="recommendations">
+                <strong>💡 Рекомендации по улучшению:</strong>
+                <ul>
+                    <li>Добавить синонимы в базу FAQ: <em>«когда придёт заказ»</em>, <em>«где моя посылка»</em>, <em>«статус доставки»</em></li>
+                    <li>Для sim &lt; 0.75 настроить уточняющий вопрос или эскалацию на оператора</li>
+                    <li>Протестировать новый вопрос «Как оплатить заказ» после индексации</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 20px; font-weight: 500;">
+                🎯 <strong>Итог:</strong> Чат-бот справился с задачей! 
+                <span style="color: #28a745;">✅ Рекомендуется к использованию</span>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
