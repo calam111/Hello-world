@@ -435,3 +435,189 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Метрики модели КАСКО</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #f4f7f6;
+            --table-header-bg: #ecf0f1;
+            --row-hover: #e8f6f3;
+            --border-color: #bdc3c7;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 800px;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            font-size: 0.95rem;
+        }
+
+        thead tr {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #dddddd;
+        }
+
+        th {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Выделение строк итогов */
+        tr.total-row {
+            background-color: #e8f4fd;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        tr:hover {
+            background-color: var(--row-hover);
+            cursor: default;
+        }
+
+        /* Скругление углов таблицы */
+        thead tr th:first-child { border-top-left-radius: 10px; }
+        thead tr th:last-child { border-top-right-radius: 10px; }
+        tbody tr:last-child td:first-child { border-bottom-left-radius: 10px; }
+        tbody tr:last-child td:last-child { border-bottom-right-radius: 10px; }
+
+        /* Адаптивность для мобильных */
+        @media (max-width: 600px) {
+            th, td { padding: 8px 10px; font-size: 0.8rem; }
+            .container { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Отчет о точности модели (Classification Report)</h2>
+    
+    <div class="table-wrapper">
+        <table id="metricsTable">
+            <thead>
+                <tr>
+                    <th>Класс / Метрика</th>
+                    <th>Precision</th>
+                    <th>Recall</th>
+                    <th>F1-Score</th>
+                    <th>Support</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Данные будут загружены сюда через JS -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Данные, которые вы предоставили в запросе.
+    // В реальном проекте вы можете загружать это из model_metrics.json через fetch()
+    const reportData = {
+        "0": { "precision": 0.89, "recall": 0.95, "f1-score": 0.92, "support": 66 },
+        "1": { "precision": 0.98, "recall": 0.94, "f1-score": 0.96, "support": 134 },
+        "accuracy": { "precision": null, "recall": null, "f1-score": 0.94, "support": 200 }, // Accuracy обычно одна цифра
+        "macro avg": { "precision": 0.93, "recall": 0.95, "f1-score": 0.94, "support": 200 },
+        "weighted avg": { "precision": 0.95, "recall": 0.94, "f1-score": 0.95, "support": 200 }
+    };
+
+    const tableBody = document.getElementById('tableBody');
+
+    // Функция для рендеринга таблицы
+    function renderTable(data) {
+        // Порядок отображения строк
+        const rowsOrder = ['0', '1', 'accuracy', 'macro avg', 'weighted avg'];
+
+        rowsOrder.forEach(key => {
+            const row = document.createElement('tr');
+            const metrics = data[key];
+
+            // Добавляем класс для итоговых строк
+            if (['accuracy', 'macro avg', 'weighted avg'].includes(key)) {
+                row.classList.add('total-row');
+            }
+
+            // Ячейка названия
+            const nameCell = document.createElement('td');
+            nameCell.textContent = key === 'accuracy' ? 'Accuracy (Общая)' : 
+                                   key === 'macro avg' ? 'Macro Avg' : 
+                                   key === 'weighted avg' ? 'Weighted Avg' : `Класс ${key}`;
+            row.appendChild(nameCell);
+
+            // Ячейки метрик
+            // Для Accuracy показываем только F1-Score колонку как общую точность, остальные пустые или прочерк
+            if (key === 'accuracy') {
+                row.innerHTML += `<td>-</td><td>-</td><td>${metrics['f1-score']}</td><td>${metrics['support']}</td>`;
+            } else {
+                row.innerHTML += `
+                    <td>${metrics['precision']}</td>
+                    <td>${metrics['recall']}</td>
+                    <td>${metrics['f1-score']}</td>
+                    <td>${metrics['support']}</td>
+                `;
+            }
+
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Запуск рендеринга
+    renderTable(reportData);
+
+    /* 
+    // Если вы хотите загружать данные из реального JSON файла, раскомментируйте этот код:
+    
+    fetch('model_metrics.json')
+        .then(response => response.json())
+        .then(data => renderTable(data))
+        .catch(error => console.error('Ошибка загрузки:', error));
+    */
+</script>
+
+</body>
+</html>
