@@ -435,3 +435,172 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Table</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead {
+            background-color: #f8f9fa;
+        }
+        th {
+            padding: 18px 25px;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 3px solid #dee2e6;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        td {
+            padding: 16px 25px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        tbody tr {
+            transition: all 0.3s ease;
+        }
+        tbody tr:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.01);
+        }
+        .key {
+            font-weight: 600;
+            color: #667eea;
+            font-family: 'Courier New', monospace;
+        }
+        .value {
+            font-family: 'Courier New', monospace;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .string {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .number {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .boolean {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        .null {
+            background-color: #f8d7da;
+            color: #721c24;
+            font-style: italic;
+        }
+        .type-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .type-string { background: #d4edda; color: #155724; }
+        .type-number { background: #fff3cd; color: #856404; }
+        .type-boolean { background: #d1ecf1; color: #0c5460; }
+        .type-null { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 JSON Data Viewer</h1>
+            <p>Beautiful table representation</p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const jsonData = {"version":1,"isFromEmptySelection":false,"multicursorText":null,"mode":"python"};
+        
+        const tableBody = document.getElementById('tableBody');
+        
+        Object.entries(jsonData).forEach(([key, value]) => {
+            const row = document.createElement('tr');
+            
+            let valueClass, typeClass, typeText;
+            
+            if (typeof value === 'string') {
+                valueClass = 'string';
+                typeClass = 'type-string';
+                typeText = 'String';
+            } else if (typeof value === 'number') {
+                valueClass = 'number';
+                typeClass = 'type-number';
+                typeText = 'Number';
+            } else if (typeof value === 'boolean') {
+                valueClass = 'boolean';
+                typeClass = 'type-boolean';
+                typeText = 'Boolean';
+            } else if (value === null) {
+                valueClass = 'null';
+                typeClass = 'type-null';
+                typeText = 'Null';
+                value = 'null';
+            } else {
+                valueClass = '';
+                typeClass = '';
+                typeText = typeof value;
+            }
+            
+            row.innerHTML = `
+                <td class="key">${key}</td>
+                <td><span class="value ${valueClass}">${value}</span></td>
+                <td><span class="type-badge ${typeClass}">${typeText}</span></td>
+            `;
+            
+            tableBody.appendChild(row);
+        });
+    </script>
+</body>
+</html>
