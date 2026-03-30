@@ -1,504 +1,116 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой блог</title>
-    <link type="text/css" rel="stylesheet" href="style.css">
-    <style>
-        /* ========================
-           ЕДИНАЯ СИСТЕМА СТИЛЕЙ
-           ======================== */
-        :root {
-            --color-primary: #2c3e50;
-            --color-secondary: #3498db;
-            --color-success: #27ae60;
-            --color-warning: #f39c12;
-            --color-danger: #e74c3c;
-            --color-text: #333;
-            --color-text-light: #666;
-            --color-bg: #f8f9fa;
-            --color-card: #ffffff;
-            --color-border: #e0e0e0;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --spacing-xs: 8px;
-            --spacing-sm: 12px;
-            --spacing-md: 20px;
-            --spacing-lg: 30px;
-            --spacing-xl: 40px;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--color-bg);
-            color: var(--color-text);
-            line-height: 1.6;
-            padding: var(--spacing-md);
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        /* Заголовок страницы */
-        .page-title {
-            text-align: center;
-            padding: var(--spacing-lg) 0;
-            color: var(--color-primary);
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        /* Карточка записи блога */
-        .blog-post {
-            background: var(--color-card);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-lg);
-            box-shadow: var(--shadow-md);
-            border-left: 4px solid var(--color-secondary);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .blog-post:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        /* Дата записи */
-        .post-date {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: linear-gradient(135deg, var(--color-secondary), #2980b9);
-            color: white;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: var(--spacing-md);
-        }
-
-        /* Заголовки внутри карточек */
-        .post-title {
-            color: var(--color-primary);
-            margin: 0 0 var(--spacing-sm) 0;
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        /* Текст записи */
-        .post-content {
-            color: var(--color-text);
-            font-size: 1rem;
-            margin-bottom: var(--spacing-sm);
-        }
-        .post-content p { margin-bottom: var(--spacing-sm); }
-        .post-content ul { 
-            margin: var(--spacing-sm) 0; 
-            padding-left: 24px; 
-        }
-        .post-content li { margin-bottom: 4px; }
-        .post-content code {
-            background: #f1f3f4;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Consolas', monospace;
-            font-size: 0.95em;
-        }
-
-        /* Цитаты */
-        .quote-box {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-left: 4px solid var(--color-secondary);
-            padding: var(--spacing-md);
-            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-            margin: var(--spacing-md) 0;
-            font-style: italic;
-        }
-        .quote-author {
-            text-align: right;
-            color: var(--color-text-light);
-            font-size: 0.9rem;
-            margin-top: var(--spacing-sm);
-            font-style: normal;
-        }
-
-        /* Информационные блоки */
-        .info-box {
-            padding: var(--spacing-md);
-            border-radius: var(--radius-sm);
-            margin: var(--spacing-md) 0;
-            border-left: 4px solid;
-        }
-        .info-box.info { 
-            background: #e3f2fd; 
-            border-color: #2196f3; 
-        }
-        .info-box.success { 
-            background: #e8f5e9; 
-            border-color: #4caf50; 
-        }
-        .info-box.warning { 
-            background: #fff3e0; 
-            border-color: #ff9800; 
-        }
-        .info-box.danger { 
-            background: #ffebee; 
-            border-color: #f44336; 
-        }
-
-        /* Медиа (изображения, видео) */
-        .media-center {
-            text-align: center;
-            margin: var(--spacing-md) 0;
-        }
-        .media-center img,
-        .media-center video {
-            max-width: 100%;
-            border-radius: var(--radius-sm);
-            box-shadow: var(--shadow-sm);
-        }
-
-        /* Кнопки и ссылки */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            background: var(--color-secondary);
-            color: white;
-            text-decoration: none;
-            border-radius: var(--radius-sm);
-            font-weight: 600;
-            transition: background 0.2s, transform 0.1s;
-            margin: 4px;
-        }
-        .btn:hover {
-            background: #2980b9;
-            transform: translateY(-1px);
-        }
-        .btn.success { background: var(--color-success); }
-        .btn.success:hover { background: #219a52; }
-        .btn.warning { background: var(--color-warning); color: #333; }
-        .btn.danger { background: var(--color-danger); }
-        
-        .link-row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: var(--spacing-sm);
-            margin: var(--spacing-md) 0;
-        }
-
-        /* Таблицы */
-        .table-wrapper {
-            overflow-x: auto;
-            margin: var(--spacing-md) 0;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--color-border);
-        }
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.95rem;
-            background: white;
-        }
-        .data-table thead {
-            background: linear-gradient(135deg, var(--color-primary), #1a252f);
-            color: white;
-        }
-        .data-table th,
-        .data-table td {
-            padding: 12px 16px;
-            text-align: center;
-            border-bottom: 1px solid var(--color-border);
-        }
-        .data-table th {
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 0.3px;
-        }
-        .data-table tbody tr:hover {
-            background-color: #f8f9fa;
-        }
-        .data-table .row-total {
-            background-color: #e8f4fd;
-            font-weight: 600;
-            color: var(--color-primary);
-        }
-        .data-table td:first-child {
-            text-align: left;
-            font-weight: 500;
-        }
-
-        /* Бейджи и метки */
-        .badge {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin: var(--spacing-xs) 0;
-        }
-        .badge.primary { 
-            background: linear-gradient(135deg, var(--color-secondary), #2980b9); 
-            color: white; 
-        }
-        .badge.success { 
-            background: linear-gradient(135deg, var(--color-success), #219a52); 
-            color: white; 
-        }
-        .badge.warning { 
-            background: linear-gradient(135deg, var(--color-warning), #e67e22); 
-            color: white; 
-        }
-
-        /* Футер и разделители */
-        .section-divider {
-            border: none;
-            border-top: 2px dashed var(--color-border);
-            margin: var(--spacing-xl) 0;
-        }
-        .footer-note {
-            text-align: center;
-            color: var(--color-text-light);
-            font-size: 0.85rem;
-            padding: var(--spacing-md);
-            margin-top: var(--spacing-lg);
-        }
-        .footer-note a { color: var(--color-secondary); }
-
-        /* Адаптивность */
-        @media (max-width: 600px) {
-            body { padding: var(--spacing-sm); }
-            .blog-post { padding: var(--spacing-md); }
-            .data-table th, .data-table td { padding: 8px 10px; font-size: 0.85rem; }
-            .btn { width: 100%; justify-content: center; }
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
+<!-- Запись: Обучение нейросети (25.03.2026) -->
+<article class="blog-post">
+    <div class="post-date">📅 25 марта, 2026</div>
+    <h2 class="post-title">🤖 Обучение нейросети: прогноз успеваемости</h2>
     
-    <!-- Заголовок страницы -->
-    <h1 class="page-title">📝 Мой блог</h1>
-
-    <!-- Запись 1: Предсказания (18.02.2026) -->
-    <article class="blog-post">
-        <div class="post-date">📅 18 февраля, 2026</div>
-        <h2 class="post-title">🐕 Результаты классификации пород собак</h2>
-        <div class="post-content">
-            <p><strong>Топ-3 предсказаний модели:</strong></p>
-            <ul>
-                <li>🥇 Labrador Retriever: <strong>89.02%</strong></li>
-                <li>🥈 Golden Retriever: <strong>7.58%</strong></li>
-                <li>🥉 Chesapeake Bay Retriever: <strong>0.32%</strong></li>
-            </ul>
-            <div class="info-box info">
-                💡 Модель показывает высокую уверенность в определении породы.
-            </div>
-        </div>
-    </article>
-
-    <!-- Запись 2: Новый год (23.12.2025) -->
-    <article class="blog-post">
-        <div class="post-date">📅 23 декабря, 2025</div>
-        <h2 class="post-title" style="color: #c0392b;">🎄 Рождественская колядка 2026</h2>
+    <div class="post-content">
+        <p><strong>Задача:</strong> Предсказание оценок студентов на основе демографических данных и подготовки.</p>
         
-        <div class="media-center">
-            <img src="Icons/newyear.jpg.png" alt="Новый год" style="max-width: 300px;">
+        <!-- Бейджи с метриками -->
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: var(--spacing-md) 0; justify-content: center;">
+            <span class="badge success">✅ Train MSE: 0.00413</span>
+            <span class="badge warning">⚠️ Test MSE: 0.01076</span>
+            <span class="badge primary">🔄 Epochs: 1000</span>
         </div>
 
-        <div class="media-center">
-            <video width="600" height="340" controls>
-                <source src="newTree.mp4" type="video/mp4">
-                Ваш браузер не поддерживает видео.
-            </video>
+        <!-- Важное предупреждение о неинтерпретируемости -->
+        <div class="info-box warning" style="margin: var(--spacing-md) 0; text-align: center; font-weight: 500;">
+            ⚠️ <strong>Нейросеть не интерпретируема</strong><br>
+            <span style="font-weight: normal; font-size: 0.95rem; color: var(--color-text-light);">
+                Мы видим результат, но не можем точно объяснить, как именно модель пришла к каждому прогнозу.
+            </span>
         </div>
 
-        <div class="post-content">
-            <div class="info-box warning">
-                <strong>🎶 Слушайте, радуйтесь, делитесь с близкими!</strong><br>
-                Пусть эта колядка принесёт в ваш дом тепло и радость!
-            </div>
-            <p style="text-align: center; font-size: 1.1rem; color: #c0392b; font-weight: bold;">
-                Поздравляю с наступающим Рождеством 2026! 🎄✨
-            </p>
+        <!-- График прогресса обучения (таблица) -->
+        <h3 style="color: var(--color-primary); margin: var(--spacing-md) 0 12px;">📊 Динамика ошибки (MSE)</h3>
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Эпоха</th>
+                        <th>Ошибка (MSE)</th>
+                        <th>Прогресс</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td><code>0.023384</code></td><td><div style="background:#e0e0e0;height:8px;border-radius:4px;"><div style="width:18%;background:var(--color-danger);height:100%;border-radius:4px;"></div></div></td></tr>
+                    <tr><td>100</td><td><code>0.012552</code></td><td><div style="background:#e0e0e0;height:8px;border-radius:4px;"><div style="width:46%;background:var(--color-warning);height:100%;border-radius:4px;"></div></div></td></tr>
+                    <tr><td>200</td><td><code>0.006890</code></td><td><div style="background:#e0e0e0;height:8px;border-radius:4px;"><div style="width:70%;background:var(--color-success);height:100%;border-radius:4px;"></div></div></td></tr>
+                    <tr><td>300</td><td><code>0.005082</code></td><td><div style="background:#e0e0e0;height:8px;border-radius:4px;"><div style="width:82%;background:var(--color-success);height:100%;border-radius:4px;"></div></div></td></tr>
+                    <tr><td>400</td><td><code>0.004526</code></td><td><div style="background:#e0e0e0;height:8px;border-radius:4px;"><div style="width:88%;background:var(--color-success);height:100%;border-radius:4px;"></div></div></td></tr>
+                    <tr><td>500</td><td><code>0.004329</code></td><td><div style="background:#e0e0e0;height:8px;border-radius:4px;"><div style="width:91%;background:var(--color-success);height:100%;border-radius:4px;"></div></div></td></tr>
+                    <tr><td>600</td><td><code>0.004243</code></td><td><div style="background:#e0e0e0;height:8px;border-radius:4px;"><div style="width:93%;background:var(--color-success);height:100%;border-radius:4px;"></div></div></td></tr>
+                    <tr><td>700</td><td><code>0.004197</code></td><td><div style="background:#e0e0e0;height:8px;border-radius:4px;"><div style="width:94%;background:var(--color-success);height:100%;border-radius:4px;"></div></div></td></tr>
+                    <tr><td>800</td><td><code>0.004167</code></td><td><div style="background:#e0e0e0;height:8px;border-radius:4px;"><div style="width:95%;background:var(--color-success);height:100%;border-radius:4px;"></div></div></td></tr>
+                    <tr><td>900</td><td><code>0.004146</code></td><td><div style="background:#e0e0e0;height:8px;border-radius:4px;"><div style="width:96%;background:var(--color-success);height:100%;border-radius:4px;"></div></div></td></tr>
+                    <tr class="row-total"><td><strong>1000 (финал)</strong></td><td><strong><code>0.004130</code></strong></td><td><div style="background:#e0e0e0;height:8px;border-radius:4px;"><div style="width:100%;background:var(--color-primary);height:100%;border-radius:4px;"></div></div></td></tr>
+                </tbody>
+            </table>
         </div>
-    </article>
 
-   
-
-    <!-- Запись 4: Поздравление (10.10.2025) -->
-    <article class="blog-post">
-        <div class="post-date">📅 10 октября, 2025</div>
-        <h2 class="post-title">🎁 Новогоднее поздравление</h2>
-        <div class="post-content">
-            <p style="text-align: center;">Поздравление с Наступающим 2026 годом:</p>
-            <div style="text-align: center;">
-                <a href="Congratulations2026.html" class="btn">
-                    <span>✨</span> Открыть поздравление <span>👉</span>
-                </a>
-            </div>
+        <!-- Информационный блок -->
+        <div class="info-box success">
+            <strong>✨ Вывод:</strong> Модель успешно сходится. Ошибка на тренировочных данных снизилась в <strong>5.7×</strong>, на тестовых — стабильная, переобучение минимально.
         </div>
-    </article>
 
-    <!-- Запись 5: Кроссворды (15.10.2025) -->
-    <article class="blog-post">
-        <div class="post-date">📅 15 октября, 2025</div>
-        <h2 class="post-title">🧩 Новогодние кроссворды</h2>
-        <div class="post-content">
-            <div class="info-box warning">
-                <p style="text-align: center;">
-                    Я сделал Новогодние кроссворды для сайта 
-                    <a href="http://example.com" title="Блог моего друга">👫 сайта моего друга</a>
-                </p>
-            </div>
-            
-            <p style="text-align: center; color: var(--color-text-light);">Посмотреть готовые кроссворды:</p>
-            <div class="link-row">
-                <a href="krossvordRU.html" class="btn success">
-                    <span style="font-size: 1.2rem;">🇷🇺</span> Русский
-                </a>
-                <a href="krossvordEN.html" class="btn danger">
-                    <span style="font-size: 1.2rem;">🇬🇧</span> English
-                </a>
-            </div>
+        <!-- Примеры прогнозов -->
+        <h3 style="color: var(--color-primary); margin: var(--spacing-md) 0 12px;">🎯 Примеры прогнозов (реальные оценки)</h3>
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Факт</th>
+                        <th>Прогноз</th>
+                        <th>Отклонение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td><strong>91.0</strong></td><td>77.49</td><td style="color: var(--color-danger);">−13.51</td></tr>
+                    <tr><td>2</td><td><strong>53.0</strong></td><td>61.42</td><td style="color: var(--color-success);">+8.42</td></tr>
+                    <tr><td>3</td><td><strong>80.0</strong></td><td>78.67</td><td style="color: var(--color-success);">−1.33</td></tr>
+                    <tr><td>4</td><td><strong>74.0</strong></td><td>76.67</td><td style="color: var(--color-success);">+2.67</td></tr>
+                    <tr><td>5</td><td><strong>84.0</strong></td><td>80.16</td><td style="color: var(--color-success);">−3.84</td></tr>
+                </tbody>
+            </table>
         </div>
-    </article>
 
-    <!-- Запись 6: Цитата (01.09.2025) -->
-    <article class="blog-post">
-        <div class="post-date">📅 1 сентября, 2025</div>
-        <h2 class="post-title">💭 Мудрость дня</h2>
-        <div class="post-content">
-            <div class="quote-box">
-                <p>"Путешествие в тысячу миль начинается с одного шага"</p>
-                <p class="quote-author">— Лао Цзы</p>
-            </div>
-            <div class="info-box info">
-                <p>Оставляю в прошлом скучную локальную файловую систему ради Всемирной паутины.</p>
-                <p style="margin-top: 8px; color: var(--color-secondary);">
-                    💡 Начало пути в веб-разработку и создание первого сайта!
-                </p>
-            </div>
+        <!-- Цитата о важности осторожности -->
+        <div class="quote-box">
+            <p>«Доверяй, но проверяй»: даже точная модель требует критического анализа результатов.</p>
+            <p class="quote-author">— Принцип ответственного ИИ</p>
         </div>
-    </article>
 
-    <!-- Разделитель -->
-    <hr class="section-divider">
+        <!-- Код (аккордеон-стиль) -->
+        <details style="margin: var(--spacing-md) 0; background: #f8f9fa; padding: var(--spacing-md); border-radius: var(--radius-sm);">
+            <summary style="cursor: pointer; font-weight: 600; color: var(--color-secondary);">🔍 Показать код обучения</summary>
+            <pre style="margin-top: 12px; background: #1e1e1e; color: #d4d4d4; padding: 12px; border-radius: 8px; overflow-x: auto; font-size: 0.85rem;"><code>import numpy as np
+epochs = 1000
+learning_rate = 0.1
+network = Network(4, 2, 1, learning_rate=learning_rate)
 
-    <!-- Блок: Развлечения -->
-    <article class="blog-post" style="border-left-color: #e74c3c;">
-        <h2 class="post-title" style="text-align: center;">🎮 Новогодние развлечения</h2>
+for epoch in range(epochs):
+    total_loss = 0
+    for i in range(len(X_train)):
+        inputs = X_train[i].reshape(-1, 1)
+        target = y_train[i].reshape(-1, 1)
+        network.backward(inputs, target)
+    
+    # Расчет MSE
+    train_predictions = np.array([
+        network.forward(X_train[i].reshape(-1, 1))[0][0] 
+        for i in range(len(X_train))
+    ]).reshape(-1, 1)
+    train_loss = MSE(train_predictions, y_train)
+    
+    if epoch % 100 == 0:
+        print(f"Эпоха {epoch:4d} | Ошибка (MSE): {train_loss:.6f}")</code></pre>
+        </details>
+
+        <!-- Кнопки действий -->
         <div class="link-row">
-            <a href="krossvordRU.html" class="btn success">
-                <div style="font-size: 1.5rem;">🇷🇺</div>
-                <strong>Русский кроссворд</strong>
-            </a>
-            <a href="krossvordEN.html" class="btn danger">
-                <div style="font-size: 1.5rem;">🇬🇧</div>
-                <strong>English Crossword</strong>
-            </a>
-            <a href="Congratulations2026.html" class="btn warning" style="color: #333;">
-                <div style="font-size: 1.5rem;">📜</div>
-                <strong>Поздравление</strong>
-            </a>
+            <a href="#" class="btn success" onclick="alert('📥 Данные экспортированы!')">📥 Экспорт результатов</a>
+            <a href="#" class="btn" onclick="alert('🔄 Перезапуск обучения...')">🔄 Перезапустить</a>
         </div>
-    </article>
-
-    <!-- Блок: Технические заметки -->
-    <article class="blog-post">
-        <div class="post-date">📅 13 января, 2026</div>
-        <h2 class="post-title">🌐 Структура доменного имени</h2>
-        <div class="post-content">
-            <p><strong>Домен:</strong> <code>bitblondi.github.io</code></p>
-            <ul>
-                <li>Корневой домен: <code>.</code></li>
-                <li>Домен первого уровня (TLD): <code>io</code></li>
-                <li>Домен второго уровня: <code>github</code></li>
-                <li>Поддомен: <code>bitblondi</code></li>
-            </ul>
-        </div>
-    </article>
-
-    <!-- Блок: Криптография -->
-    <article class="blog-post">
-        <div class="post-date">📅 19 января, 2026</div>
-        <h2 class="post-title">🔐 Задачи по шифрованию</h2>
-        <div class="post-content">
-            <h3>1. Определение ключа по известным парам:</h3>
-            <ul>
-                <li><strong>а.</strong> АПЕЛЬСИН → САЦЬНВЩЮ &nbsp;|&nbsp; Ключ: <code>18</code></li>
-                <li><strong>б.</strong> АБРИКОС → ЫЬЛГЕЙМ &nbsp;|&nbsp; Ключ: <code>28</code></li>
-            </ul>
-
-            <h3>2. Расшифровка сообщений:</h3>
-            <ul>
-                <li><strong>а.</strong> ФХНЗКЧ → <code>ПРИВЕТ</code> (ключ = 5)</li>
-                <li><strong>б.</strong> ЦЩЕБФ → <code>ВЕСНА</code> (ключ = 20)</li>
-            </ul>
-
-            <h3>3. Шифрование фамилии "магомедов" с ключом 10:</h3>
-            <div class="info-box success">
-                Результат: <strong><code>ЮПНШрпглшЪШЛ</code></strong>
-            </div>
-        </div>
-    </article>
-
-    <article class="blog-post">
-        <div class="post-date">📅 21 января, 2026</div>
-        <h2 class="post-title">🔑 Асимметричное шифрование</h2>
-        <div class="post-content">
-            <p><strong>Открытый ключ:</strong> <code>(n, e) = (...)</code></p>
-            <p><strong>Закрытый ключ:</strong> <code>(n, d) = (...)</code></p>
-            <div class="info-box warning">
-                <p><strong>Модуль n (фрагмент):</strong></p>
-                <code style="word-break: break-all; display: block; margin-top: 8px;">
-                    1234567890123456789012345678901234567890...
-                </code>
-            </div>
-        </div>
-    </article>
-
-    <!-- Футер -->
-    <footer class="footer-note">
-        <p>
-            📧 <a href="mailto:guccitopgang@gmail.com">Написать мне</a><br>
-            🎨 Иконки: 
-            <a href="https://www.flaticon.com" target="_blank">Flaticon</a>
-        </p>
-    </footer>
-
-</div>
-
-<script>
-    // Инициализация видео при загрузке страницы
-    document.addEventListener('DOMContentLoaded', function() {
-        const videos = document.querySelectorAll('video');
-        videos.forEach(video => video.load());
-        
-        // Плавная прокрутка для якорных ссылок
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href'))?.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    });
-</script>
-
-</body>
-</html>
+    </div>
+</article>
